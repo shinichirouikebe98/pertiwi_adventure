@@ -34,9 +34,26 @@ Route::prefix('admin')->group(function () {
         //logout
         Route::post('/logout', [App\Http\Controllers\Api\Admin\LoginController::class, 'logout']);
 
+        //user crud route
+        Route::group(['middleware' => 'role:Admin'], function() {
+            Route::apiResource('users', App\Http\Controllers\Api\Admin\UserController::class);
+        });
+
+        //authorization
         Route::prefix('authorization')->group(function () {
-            Route::get('/permissions', PermissionController::class);
-            Route::get('/roles', RoleController::class);
+
+            //gates data for vue gates
+            Route::get('/permissions-gates', PermissionController::class);
+            Route::get('/roles-gates', RoleController::class);
+            //get roles name for checkbox
+            Route::get('/roles-names', [App\Http\Controllers\Api\Admin\RoleController::class, 'getRoleNames']);
+
+            //admin only
+            Route::group(['middleware' => 'role:Admin'], function() {
+                Route::apiResource('/permissions', App\Http\Controllers\Api\Admin\PermissionController::class);
+                Route::apiResource('/roles', App\Http\Controllers\Api\Admin\RoleController::class);
+            });
+
         });
     
     });
@@ -76,34 +93,18 @@ Route::prefix('web')->group(function () {
     Route::get('/images/atv', [App\Http\Controllers\Api\Web\ImageController::class, 'gallery_atv']);
     Route::get('/images/rafting', [App\Http\Controllers\Api\Web\ImageController::class, 'gallery_rafting']);
     Route::get('/images/paintball', [App\Http\Controllers\Api\Web\ImageController::class, 'gallery_paintball']);
-    Route::get('/images/carousel', [App\Http\Controllers\Api\Web\ImageController::class, 'slider_img']);
+    Route::get('/images/vw', [App\Http\Controllers\Api\Web\ImageController::class, 'gallery_vw']);
+ 
     
     //article routes
-    Route::get('/article/intro', [App\Http\Controllers\Api\Web\ArticleController::class, 'cardIntroArticle']);
     Route::get('/article/bpa', [App\Http\Controllers\Api\Web\ArticleController::class, 'bannerPaintballArticle']);
     Route::get('/article/baa', [App\Http\Controllers\Api\Web\ArticleController::class, 'bannerAtvArticle']);
     Route::get('/article/bra', [App\Http\Controllers\Api\Web\ArticleController::class, 'bannerRaftingArticle']);
-    Route::get('/article/bestseller', [App\Http\Controllers\Api\Web\ArticleController::class, 'bestSeller']);
-    Route::get('/article/home', [App\Http\Controllers\Api\Web\ArticleController::class, 'homeBanner']);
-    Route::get('/article/paintballarticle', [App\Http\Controllers\Api\Web\ArticleController::class, 'paintballActivities']);
-    Route::get('/article/atvarticle', [App\Http\Controllers\Api\Web\ArticleController::class, 'atvActivities']);
-    Route::get('/article/raftingarticle', [App\Http\Controllers\Api\Web\ArticleController::class, 'raftingActivities']);
+    Route::get('/article/bva', [App\Http\Controllers\Api\Web\ArticleController::class, 'bannerVwArticle']);
+
+
+    //email
+    Route::post('/send-email', [App\Http\Controllers\Api\Web\EmailController::class, 'sendMail']);
 
 });
 
-// Route::prefix('superadmin')->group(function(){
-//     //route login
-//     Route::post('/login', [App\Http\Controllers\Api\SuperAdmin\LoginController::class, 'index']);
-
-//     Route::group(['middleware'=>'auth:superadmins'],function(){
-//         //me
-//         Route::apiResource('/users', App\Http\Controllers\Api\SuperAdmin\UserController::class);
-
-//         //refresh token JWT
-//         Route::get('/refresh', [App\Http\Controllers\Api\SuperAdmin\LoginController::class, 'refreshToken']);
-
-//         //logout
-//         Route::post('/logout', [App\Http\Controllers\Api\SuperAdmin\LoginController::class, 'logout']);
-//     });
-
-// });

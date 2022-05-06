@@ -15,10 +15,7 @@ class ImageController extends Controller
         //return with Api Resource
         return new ImageResource(true, 'List Data Gambar', $images);
     }
-    public function slider_img(){
-        $images = Image::select('img','name')->where('category','=','Slider')->get();
-        return new ImageResource(true, 'List Gambar Slider', $images);
-    }
+
     public function gallery_paintball(){
         $images = Image::select('img','name')->where('category','=','Paintball')->get();
         return new ImageResource(true, 'List Gallery Paintball', $images);
@@ -32,8 +29,12 @@ class ImageController extends Controller
         $images = Image::select('img','name')->where('category','=','Rafting')->get();
         return new ImageResource(true, 'List Gallery Rafting', $images);
     }
-    public function logo(){
-        $images = Image::select('img','name')->where('category','=','Logo')->get();
-        return new ImageResource(true, 'List Logo', $images);
+    public function gallery_vw(){
+        $images = Image::select('img','name')->where('category','=','Vw')->get();
+        return new ImageResource(true, 'List Gallery Rafting', $images);
     }
+    // public function logo(){
+    //     $images = Image::select('img','name')->where('category','=','Logo')->get();
+    //     return new ImageResource(true, 'List Logo', $images);
+    // }
 }

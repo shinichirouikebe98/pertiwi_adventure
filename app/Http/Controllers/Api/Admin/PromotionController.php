@@ -89,7 +89,7 @@ class PromotionController extends Controller
             $image = $request->file('img');
             $image->storeAs('public/promotion', $image->hashName());
 
-            //update berita with new image
+            //update promo with new image
             $promotion->update([
                 'title'=> $request->title,
                 'img'=> $image->hashName(),
@@ -100,7 +100,7 @@ class PromotionController extends Controller
 
         }
 
-        //update berita without image
+        //update promo without image
         $promotion->update([
             'title'=> $request->title,
             'description' => $request->description,

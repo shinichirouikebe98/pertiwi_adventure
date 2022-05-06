@@ -15,50 +15,93 @@ class RoleController extends Controller
     {
         return auth()->guard('api')->user()->getRoleNames();
     }
+    public function index()
+    {
+       
+        //get categories
+        $roles = Role::with('permissions')->when(request()->q, function($roles) {
+            $roles = $roles->where('name', 'like', '%'. request()->q . '%');
+        })->latest()->paginate(15);
+
+        return $roles;
+        //return with Api Resource
+        // return new RoleResource(true, 'List Data Role', $roles);
+    }
     public function store(Request $request){
+       
         $validator = Validator::make($request->all(),[
-            'role' => 'required|unique:roles,role',
+            'name' => 'required|unique:roles,name',
             'permission' => 'required|min:1'
         ]);
 
-        $role = Role::create([
-            'role' => $request->role
-        ]);
-        $role->syncPermission($request->permission);
-
-        if($role) {
-            //return success with Api Resource
-            return new RoleResource(true, 'Data Role Berhasil Disimpan!', $role);
+        if ($validator->fails()) {
+            return response()->json($validator->errors(), 422);
         }
 
-        //return failed with Api Resource
-        return new RoleResource(false, 'Data Role Gagal Disimpan!', null);
+        $role = Role::create([
+            'name' => $request->name,
+            'guard_name' => 'api'
+                
+        ]);
+        
+        $role->syncPermissions(explode(',',$request->permission));
+
+        if($role) {
+            //return success 
+            return 'berhasil di simpan';
+        }
+
+        //return failed 
+        return 'gagal di simpan';
 
     }
+
     public function update(Request $request,Role $role){
         $validator = Validator::make($request->all(),[
-            'role' => 'required|unique:roles,role,'.$role->id,
+            'name' => 'unique:roles,name,'.$role->id,
             'permission' => 'required|min:1'
         ]);
 
         $role->update([
-            'role' => $request->role
+            'name' => $request->name
         ]);
-        $role->syncPermission($request->permission);
+        $role->syncPermissions(explode(',',$request->permission));
 
         if($role) {
+            //return success 
+            return 'Data Berhasil di update';
+        }
+
+        //return failed 
+        return 'Data Gagal di update';
+
+    }
+    public function show($id)
+    {
+        $role = Role::with('permissions')->whereId($id)->first();
+        
+        if($role) {
+            //return success 
+            return $role;
+        }
+
+        //return failed 
+        return $role;
+    }
+    public function getRoleNames(){
+        $roles = Role::select('name')->get();
+        return new RoleResource(true, 'List Data Role!', $roles);
+    }
+
+    public function destroy(Role $role){
+        
+        if($role->delete()) {
             //return success with Api Resource
-            return new RoleResource(true, 'Data Role Berhasil Disimpan!', $role);
+            return 'berhasil di hapus';
         }
 
         //return failed with Api Resource
-        return new RoleResource(false, 'Data Role Gagal Disimpan!', null);
-
-    }
-
-    public function destroy(){
-        $user = User::all()->pluck('name');
-        
+        return 'berhasil di hapus';
     }
 
     

@@ -25,24 +25,11 @@ class ArticleController extends Controller
         $articles = Article::where('category','=','Rafting_Banner')->get('article');
         return new ArticleResource(true, 'Article Berhasil di dapat', $articles);
     }
-    public function bestSeller(){
-        $articles = Article::where('category','=','Best_Seller')->get('article');
+    public function bannerVwArticle(){
+        $articles = Article::where('category','=','Vw_Banner')->get('article');
         return new ArticleResource(true, 'Article Berhasil di dapat', $articles);
     }
-    public function homeBanner(){
-        $articles = Article::where('category','=','Home_Banner')->get('article');
-        return new ArticleResource(true, 'Article Berhasil di dapat', $articles);
-    }
-    public function paintballActivities(){
-        $articles = Article::where('category','=','Paintball_Activities')->get('article');
-        return new ArticleResource(true, 'Article Berhasil di dapat', $articles);
-    }
-    public function raftingActivities(){
-        $articles = Article::where('category','=','Rafting_Activities')->get('article');
-        return new ArticleResource(true, 'Article Berhasil di dapat', $articles);
-    }
-    public function atvActivities(){
-        $articles = Article::where('category','=','Atv_Activities')->get('article');
-        return new ArticleResource(true, 'Article Berhasil di dapat', $articles);
-    }
+
+
+
 }

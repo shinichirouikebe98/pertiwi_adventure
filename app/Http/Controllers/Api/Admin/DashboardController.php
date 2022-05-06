@@ -17,19 +17,6 @@ class DashboardController extends Controller
      */
     public function index()
     {
-        $video      = Video::count();
-        $promotion   = Promotion::count();
-        $berita = Berita::count();
-        // $users      = User::count();
 
-        return response()->json([
-            'success' => true,
-            'message' => 'List Count Data Table',  
-            'data' => [
-                'video'      => $video,
-                'promotion'   => $promotion,
-                'berita' => $berita
-            ],
-        ], 200);
     }
 }

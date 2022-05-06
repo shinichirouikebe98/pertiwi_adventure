@@ -10,6 +10,7 @@ use Illuminate\Notifications\Notifiable;
 use Spatie\Permission\Traits\HasRoles;
 
 
+
 class User extends Authenticatable implements JWTSubject
 {
     use HasFactory, Notifiable, HasRoles;
