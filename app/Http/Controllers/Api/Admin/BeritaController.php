@@ -25,9 +25,9 @@ class BeritaController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'img'    => 'required|image|mimes:jpeg,jpg,png|max:2000',
-            'title'  => 'required|unique:beritas',
-            'news'   => 'required'
+            'img'    => 'required|image|mimes:jpeg,jpg,png,webp|max:2000',
+            'title'  => 'required|unique:beritas,title|string',
+            'news'   => 'required|string'
 
         ]);
 
@@ -73,7 +73,8 @@ class BeritaController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'title'  => 'required|unique:beritas,title,'.$berita->id,
-            'news'   => 'required'
+            'news'   => 'required|string',
+
         ]);
 
         if ($validator->fails()) {

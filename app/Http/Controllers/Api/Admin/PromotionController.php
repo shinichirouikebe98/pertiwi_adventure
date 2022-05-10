@@ -25,9 +25,9 @@ class PromotionController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'img'    => 'required|image|mimes:jpeg,jpg,png|max:2000',
-            'title'  => 'required|unique:promotions',
-            'description'   => 'required'
+
+            'title'  => 'required|unique:promotions|string',
+            'description'   => 'required|string'
 
         ]);
 
@@ -71,8 +71,9 @@ class PromotionController extends Controller
     public function update(Request $request, Promotion $promotion)
     {
         $validator = Validator::make($request->all(), [
-            'title'  => 'required|unique:promotions,title,'.$promotion->id,
-            'description'   => 'required'
+            'title'  => 'required|string|unique:promotions,title,'.$promotion->id,
+            'description'   => 'required|string',
+
         ]);
 
         if ($validator->fails()) {

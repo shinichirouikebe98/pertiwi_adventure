@@ -24,9 +24,9 @@ class ArticleController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'article'  => 'required',
-            'category'   => 'required',
-            'title' => 'required'
+            'article'  => 'required|string',
+            'category'   => 'required|string',
+            'title' => 'required|string'
         ]);
 
         if ($validator->fails()) {
@@ -64,9 +64,9 @@ class ArticleController extends Controller
     public function update(Request $request, Article $article)
     {
         $validator = Validator::make($request->all(), [
-            'article'  => 'required',
-            'category'   => 'required',
-            'title' => 'required'
+            'article'  => 'required|string',
+            'category'   => 'required|string',
+            'title' => 'required|string'
         ]);
 
         if ($validator->fails()) {

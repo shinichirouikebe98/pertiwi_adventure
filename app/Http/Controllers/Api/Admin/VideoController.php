@@ -24,9 +24,9 @@ class VideoController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'title'  => 'required|unique:videos',
-            'link'   => 'required|url',
-            'description' => 'required'
+            'title'  => 'required|string|unique:videos',
+            'link'   => 'required|string',
+            'description' => 'required|string'
 
         ]);
 

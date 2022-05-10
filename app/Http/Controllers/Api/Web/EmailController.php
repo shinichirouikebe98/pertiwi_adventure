@@ -14,13 +14,13 @@ class EmailController extends Controller
 
         $validator = Validator::make($request->all(), [
             'name' => 'required:max:50',
-            'purpose'  => 'required',
-            'email' => 'required|email',
-            'activity' => 'nullable',
-            'phone' => 'required',
-            'person' => 'nullable',
-            'country' => 'required',
-            'messege' => 'required',
+            'purpose'  => 'required|string',
+            'email' => 'required|email|string',
+            'activity' => 'nullable|string',
+            'phone' => 'required|string',
+            'person' => 'nullable|string',
+            'country' => 'required|string',
+            'messege' => 'required|string',
 
         ]);
 
